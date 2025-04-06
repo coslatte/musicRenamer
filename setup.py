@@ -4,8 +4,10 @@ setup(
     name="music-renamer",
     version="1.0.0",
     description="Herramienta para renombrar y gestionar metadatos de archivos de música",
-    author="Sataros221",
-    author_email="sataros221@gmail.com",
+    author="cosLatte",
+    author_email="gabrielpazruiz02@gmail.com",
+    maintainer="Sataros221",
+    maintainer_email="sataros221@gmail.com",
     packages=find_packages(),
     install_requires=[
         "mutagen",

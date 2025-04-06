@@ -161,7 +161,7 @@ def check_acoustid_installation():
                 True,
                 "Chromaprint (fpcalc) está correctamente instalado en el PATH del sistema.",
             )
-        except:
+        except Exception as e:
             if os.path.exists(local_fpcalc):
                 # Si el archivo existe localmente pero no se puede ejecutar desde acoustid
                 return (

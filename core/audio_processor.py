@@ -6,10 +6,8 @@ Contiene la clase AudioProcessor que maneja el reconocimiento, metadatos y manip
 import os
 import re
 import platform
-import requests
 import concurrent.futures
 import subprocess
-import sys
 from concurrent.futures import ThreadPoolExecutor
 from mutagen import File
 from mutagen.id3 import ID3, USLT, APIC
