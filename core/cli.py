@@ -159,8 +159,3 @@ class Cli:
 
         print("El proceso ha concluido correctamente.")
         input("Presiona Enter para salir...")
-
-
-if __name__ == "__main__":
-    cli = Cli()
-    cli.main()

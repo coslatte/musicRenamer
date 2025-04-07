@@ -9,6 +9,8 @@ from mutagen.id3 import ID3, APIC
 from mutagen.flac import FLAC, Picture
 from mutagen.mp4 import MP4, MP4Cover
 
+from constants.information import MUSIC_RENAMER_VERSION
+
 
 class AlbumArtManager:
     """
@@ -42,7 +44,9 @@ class AlbumArtManager:
 
                 # Configurar el agente de usuario para MusicBrainz (requerido)
                 musicbrainzngs.set_useragent(
-                    "MusicRenamer", "1.0", "https://github.com/Sataros221/musicrenamer"
+                    "musicRenamer",
+                    MUSIC_RENAMER_VERSION,
+                    "https://github.com/coslatte/musicRenamer",
                 )
 
                 # Buscar el álbum en MusicBrainz
@@ -129,6 +133,7 @@ class AlbumArtManager:
         Returns:
             bytes: Datos binarios de la imagen o None si falla
         """
+
         try:
             print(f"Descargando portada desde: {url}")
             response = requests.get(url)
@@ -162,6 +167,7 @@ class AlbumArtManager:
         Returns:
             bool: True si la operación fue exitosa, False en caso contrario
         """
+
         if not image_data:
             print("No hay datos de imagen para incrustar")
             return False

@@ -25,13 +25,13 @@ Una herramienta para renombrar archivos de música basándose en sus metadatos e
 
 Puede instalar las dependencias manualmente:
 
-``` bash
+```bash
 pip install mutagen requests syncedlyrics pyacoustid musicbrainzngs
 ```
 
 O puede instalar el paquete completo que se encargará de las dependencias:
 
-``` bash
+```bash
 pip install -e .
 ```
 
@@ -47,7 +47,7 @@ Para utilizar la funcionalidad de reconocimiento de canciones, necesitará Chrom
 
 El proyecto ahora está organizado de manera encapsulada usando programación orientada a objetos:
 
-``` none
+```none
 core/                   # Núcleo de funcionalidad
 ├── __init__.py
 ├── audio_processor.py  # Procesador principal de audio
@@ -57,7 +57,7 @@ utils/                  # Utilidades
 └── dependencies.py     # Verificación de dependencias
 
 cli.py                      # Interfaz de línea de comandos
-music_renamer_app.py        # Punto de entrada principal
+app.py                      # Punto de entrada principal
 install_covers.py           # Script para instalar portadas
 setup.py                    # Configuración de instalación
 ```
@@ -68,44 +68,44 @@ setup.py                    # Configuración de instalación
 
 Para renombrar archivos de música en el directorio actual:
 
-``` bash
-python music_renamer_app.py
+```bash
+python app.py
 ```
 
 ### Con Letras Sincronizadas
 
 Para buscar e incrustar letras sincronizadas:
 
-``` bash
-python music_renamer_app.py -l
+```bash
+python app.py -l
 ```
 
 ### Con Reconocimiento de Canciones
 
 Para identificar canciones y obtener información completa:
 
-``` bash
-python music_renamer_app.py -l --recognition
+```bash
+python app.py -l --recognition
 ```
 
 ### Solo Añadir Portadas
 
 Para añadir portadas a archivos existentes:
 
-``` bash
+```bash
 python install_covers.py
 ```
 
 O usando el programa principal:
 
-``` bash
-python music_renamer_app.py --only-covers
+```bash
+python app.py --only-covers
 ```
 
 ### Opciones Avanzadas
 
-``` bash
-python music_renamer_app.py --help
+```bash
+python app.py --help
 ```
 
 ## Resolución de Problemas
