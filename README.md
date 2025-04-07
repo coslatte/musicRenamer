@@ -117,7 +117,3 @@ Si recibe un error indicando que `fpcalc` no fue encontrado:
 1. Descargue el ejecutable adecuado para su sistema desde [Chromaprint releases](https://github.com/acoustid/chromaprint/releases)
 2. Coloque el archivo `fpcalc` o `fpcalc.exe` en el mismo directorio que este programa
 3. Asegúrese de que tiene permisos de ejecución (en sistemas Unix: `chmod +x fpcalc`)
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT.
