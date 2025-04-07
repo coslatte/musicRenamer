@@ -5,7 +5,7 @@ Maneja los argumentos de línea de comandos y ejecuta las operaciones correspond
 
 import os
 import argparse
-from constants.information import PARSER_DESCRIPTION_ES
+from constants.information import PARSER_DESCRIPTION
 from core.audio_processor import AudioProcessor
 from utils.dependencies import check_dependencies
 
@@ -16,17 +16,14 @@ class Cli:
     parser: argparse.ArgumentParser = None
 
     def __init__(self):
-        self.parser = argparse.ArgumentParser(
-            description=PARSER_DESCRIPTION_ES,
-        )
+        self.parser = argparse.ArgumentParser(description=PARSER_DESCRIPTION)
         self._init_parser()
         self.args = self.parser.parse_args()
         self.processor = AudioProcessor(
             directory=self.args.directory, acoustid_api_key=self.args.acoustid_key
         )
 
-    def verify_sync_lyrics(self) -> None:
-        # Verificar si se solicitó reconocimiento de audio
+    def _verify_sync_lyrics(self) -> None:
         use_acoustid = self.args.recognition
 
         start_lyrics = input(
@@ -59,7 +56,7 @@ class Cli:
                 print(f"Letras encontradas: {lyrics_found}")
                 print(f"Letras incrustadas correctamente: {lyrics_embedded}")
 
-    def add_covers(self) -> None:
+    def _add_covers(self) -> None:
         from core.artwork import AlbumArtManager
 
         # Importar el procesador de portadas específico
@@ -130,14 +127,14 @@ class Cli:
         # Si solo queremos añadir portadas
         if self.args.only_covers:
             print("Modo: Solo añadir portadas de álbum")
-            self.add_covers()
+            self._add_covers()
 
         # Verificar si debemos buscar letras sincronizadas
         if self.args.lyrics:
             print(
                 "Se utilizará la función de búsqueda e incrustación de letras sincronizadas."
             )
-            self.verify_sync_lyrics()
+            self._verify_sync_lyrics()
 
         # Renombrar archivos
         start_rename = input("¿Comenzar renombramiento de archivos? (Y/N): ").lower()
@@ -153,7 +150,7 @@ class Cli:
                 "¿Desea mantener los cambios de nombre? (Y/N): "
             ).lower()
             if keep_changes != "y":
-                # Revertir cambios (pendiente implementar)
+                self.processor.undo_rename(changes)
                 print("Los cambios de nombre se han revertido.")
             else:
                 print("Los cambios de nombre se han mantenido.")

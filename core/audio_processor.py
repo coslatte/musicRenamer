@@ -42,6 +42,7 @@ class AudioProcessor:
         Returns:
             list: Lista de nombres de archivos de audio
         """
+
         audio_extensions = (".mp3", ".wav", ".flac", ".m4a")
         return [
             f
@@ -60,6 +61,7 @@ class AudioProcessor:
         Returns:
             dict: Resultados del procesamiento
         """
+
         files = self.get_audio_files()
         results = {}
 
@@ -755,6 +757,7 @@ class AudioProcessor:
         Returns:
             dict: Cambios realizados (nuevo_nombre: nombre_original)
         """
+
         files = self.get_audio_files()
         changes = {}
 
@@ -772,6 +775,8 @@ class AudioProcessor:
                     if audio
                     else "Unknown Title"
                 )
+
+                # Artista - Título.formato (.mp3, .flac, etc..)
                 new_name = f"{artist} - {title}{os.path.splitext(file)[1]}"
 
                 actual_new_name, changed = self._safe_rename(file, new_name)
@@ -782,6 +787,21 @@ class AudioProcessor:
                 print(f"Error al procesar {file}: {str(e)}")
 
         return changes
+
+    def undo_rename(self, changes: dict):
+        files = self.get_audio_files()
+        for new_name, old_name in changes.items():
+            try:
+                # Verificar si el nuevo nombre existe en el directorio
+                if new_name in files:
+                    print(f"Deshaciendo renombrado: {new_name} -> {old_name}")
+                    self._safe_rename(new_name, old_name)
+                else:
+                    print(
+                        f"El archivo {new_name} no existe para deshacer el renombrado."
+                    )
+            except Exception as e:
+                print(f"Error al deshacer renombrado: {str(e)}")
 
     def _safe_rename(self, old_name, new_name):
         """
@@ -794,6 +814,7 @@ class AudioProcessor:
         Returns:
             tuple: (nombre_final, cambio_realizado)
         """
+
         old_path = os.path.join(self.directory, old_name)
         new_path = os.path.join(self.directory, new_name)
 
