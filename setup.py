@@ -1,13 +1,23 @@
 from setuptools import setup, find_packages
 
+from constants.information import (
+    MUSIC_RENAMER_NAME,
+    MUSIC_RENAMER_VERSION,
+    MUSIC_RENAMER_DESCRIPTION,
+    MUSIC_RENAMER_AUTHOR,
+    MUSIC_RENAMER_AUTHOR_EMAIL,
+    MUSIC_RENAMER_MAINTAINER,
+    MUSIC_RENAMER_MAINTAINER_EMAIL,
+)
+
 setup(
-    name="music-renamer",
-    version="1.0.0",
-    description="Herramienta para renombrar y gestionar metadatos de archivos de música",
-    author="cosLatte",
-    author_email="gabrielpazruiz02@gmail.com",
-    maintainer="Sataros221",
-    maintainer_email="sataros221@gmail.com",
+    name=MUSIC_RENAMER_NAME,
+    version=MUSIC_RENAMER_VERSION,
+    description=MUSIC_RENAMER_DESCRIPTION,
+    author=MUSIC_RENAMER_AUTHOR,
+    author_email=MUSIC_RENAMER_AUTHOR_EMAIL,
+    maintainer=MUSIC_RENAMER_MAINTAINER,
+    maintainer_email=MUSIC_RENAMER_MAINTAINER_EMAIL,
     packages=find_packages(),
     install_requires=[
         "mutagen",
@@ -17,7 +27,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "music-renamer=music_renamer.cli:main",
+            "music-renamer=app:main",
         ],
     },
     classifiers=[
