@@ -10,9 +10,8 @@ import concurrent.futures
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from mutagen import File
-from mutagen.id3 import ID3, USLT, APIC
-from mutagen.flac import FLAC, Picture
-from mutagen.mp4 import MP4, MP4Cover
+from mutagen.id3 import ID3, USLT
+from mutagen.mp4 import MP4
 
 
 class AudioProcessor:
@@ -192,7 +191,7 @@ class AudioProcessor:
                         print(f"  Campos actualizados: {', '.join(metadata_fields)}")
 
                     if "cover_url" in recognition:
-                        print(f"  Portada del álbum: encontrada e incrustada")
+                        print("    Portada del álbum: encontrada e incrustada")
                 else:
                     print(
                         f"[ERROR] Error al actualizar metadatos: {os.path.basename(file_path)}"
@@ -263,9 +262,6 @@ class AudioProcessor:
 
             # Buscar fpcalc en el directorio actual
             local_fpcalc = os.path.join(script_dir, fpcalc_name)
-            fpcalc_command = (
-                local_fpcalc if os.path.exists(local_fpcalc) else fpcalc_name
-            )
 
             try:
                 # Intentar generar la huella acústica usando el fpcalc local o del sistema
@@ -519,7 +515,7 @@ class AudioProcessor:
                 # Para archivos MP3 usar ID3
                 try:
                     tags = ID3(file_path)
-                except:
+                except Exception:
                     tags = ID3()
 
                 # Eliminar letras existentes
@@ -582,7 +578,8 @@ class AudioProcessor:
                     )
 
                     tags = ID3(file_path)
-                except:
+                except Exception as e:
+                    print(e)
                     tags = ID3()
 
                 # Actualizar metadatos básicos
@@ -753,6 +750,8 @@ class AudioProcessor:
     def rename_files(self):
         """
         Renombra los archivos de audio basándose en sus metadatos.
+        Si el archivo no tiene los metadatos necesarios (artista o título),
+        no se renombra y se muestra un mensaje.
 
         Returns:
             dict: Cambios realizados (nuevo_nombre: nombre_original)
@@ -765,16 +764,28 @@ class AudioProcessor:
             try:
                 file_path = os.path.join(self.directory, file)
                 audio = File(file_path, easy=True)
-                artist = (
-                    audio.get("artist", ["Unknown Artist"])[0]
-                    if audio
-                    else "Unknown Artist"
-                )
-                title = (
-                    audio.get("title", ["Unknown Title"])[0]
-                    if audio
-                    else "Unknown Title"
-                )
+
+                # Verificar si existen los metadatos necesarios
+                if not audio or not audio.tags:
+                    print(
+                        f"[ADVERTENCIA] No se renombró {file}: No se encontraron metadatos"
+                    )
+                    continue
+
+                artist = audio.get("artist", [""])[0]
+                title = audio.get("title", [""])[0]
+
+                # Verificar si los metadatos están vacíos o son los valores por defecto
+                if (
+                    not artist
+                    or not title
+                    or artist == "Unknown Artist"
+                    or title == "Unknown Title"
+                ):
+                    print(
+                        f"[ADVERTENCIA] No se renombró {file}: Faltan metadatos de artista o título"
+                    )
+                    continue
 
                 # Artista - Título.formato (.mp3, .flac, etc..)
                 new_name = f"{artist} - {title}{os.path.splitext(file)[1]}"
@@ -782,9 +793,14 @@ class AudioProcessor:
                 actual_new_name, changed = self._safe_rename(file, new_name)
                 if changed:
                     changes[actual_new_name] = file
-                    print(f"Renombrado: {file} -> {actual_new_name}")
+                    print(f"[OK] Renombrado: {file} -> {actual_new_name}")
             except Exception as e:
-                print(f"Error al procesar {file}: {str(e)}")
+                print(f"[ERROR] Error al procesar {file}: {str(e)}")
+
+        if not changes:
+            print(
+                "\nNo se realizó ningún renombrado. Todos los archivos carecían de metadatos necesarios."
+            )
 
         return changes
 
