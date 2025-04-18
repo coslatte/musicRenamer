@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
+import { call, registerJs } from "tauri-plugin-python-api";
 
 function App() {
   const [selectedPath, setSelectedPath] = useState<string>("");
   const [renamedFiles, setRenamedFiles] = useState<string[]>([]);
+
+  const [pythonText, setPythonText] = useState<string>("");
 
   const handleSelectDirectory = async () => {
     const selected = await open({
@@ -37,6 +40,13 @@ function App() {
     }
   };
 
+  const handlePythonTest = async () => {
+    registerJs("main");
+
+    const text = await call.main();
+    setPythonText(text);
+  };
+
   return (
     <>
       <div className="flex flex-col space-y-1 items-center justify-center h-screen bg-gray-100">
@@ -51,6 +61,16 @@ function App() {
               Ruta seleccionada: {selectedPath || selectedPath}{" "}
             </p>
           )}
+        </div>
+
+        <div className="bg-amber-100">
+          <button
+            onClick={handlePythonTest}
+            className="bg-teal-50 border-sky-100"
+          >
+            Press Me
+          </button>
+          <p className="text-sm">{pythonText}</p>
         </div>
 
         <div className="flex flex-col space-y-1 items-center justify-center h-screen bg-gray-100">
