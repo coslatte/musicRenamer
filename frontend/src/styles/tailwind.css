@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.directory-selector {
+  @apply my-4 p-4 border border-gray-300 rounded-lg;
+}
+
+.directory-selector button {
+  @apply bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors;
+}
+
+.selected-path {
+  @apply mt-2 text-gray-600 break-all;
+}

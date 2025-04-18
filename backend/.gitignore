@@ -1,0 +1,15 @@
+.venv/*
+build/*
+dist/*
+test/*
+fpcalc.exe
+vscode/*
+*/__pycache__/*
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+
+# Other Things
+test_files/*

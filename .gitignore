@@ -1,15 +1,47 @@
-.venv/*
-build/*
-dist/*
-test/*
-fpcalc.exe
-vscode/*
-*/__pycache__/*
-*.pyc
-*.pyo
-*.pyd
-*.pyw
-*.pyz
+# IDEs and editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Other Things
-test_files/*
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/logs
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Backend
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/.Python
+backend/build/
+backend/develop-eggs/
+backend/dist/
+backend/*.egg-info/
+backend/.eggs/
+backend/.env
+backend/.venv
+backend/env/
+backend/venv/
+backend/ENV/
+backend/test_files/*
+
+# Tauri
+frontend/src-tauri/target/
+frontend/src-tauri/Cargo.lock
+
+# System Files
+.DS_Store
+Thumbs.db
