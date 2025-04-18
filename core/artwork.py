@@ -4,7 +4,6 @@ Módulo para manejar portadas de álbumes: búsqueda, descarga e incrustación.
 
 import os
 import requests
-from mutagen import File
 from mutagen.id3 import ID3, APIC
 from mutagen.flac import FLAC, Picture
 from mutagen.mp4 import MP4, MP4Cover
